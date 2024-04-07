@@ -1,0 +1,23 @@
+body {
+background-color: rgb(36, 118, 91);
+
+}
+.stopwatch {
+
+    text-align: center;
+    margin-top: 100px;
+
+}
+
+.display {
+    font-size: 36px;
+    margin-bottom: 20px;
+    transition: ease-in-out;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 0 10px;
+    background-color: blue;
+}
