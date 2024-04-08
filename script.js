@@ -1,26 +1,42 @@
 let timer;
 let isRunning = false;
-let miliseconds = 0;
+let milliseconds = 0;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
 
-function startStop() {
-    if (isRunning) {
-        clearInterval(timer);
-        document.getElementById("startStop").innerText = "Start";
-    } else {
-        timer = setInterval(runStopwatch, 0);
-        document.getElementById("startStop").innerText = "Stop";
+function startStopwatch() {
+    if (!isRunning) {
+        timer = setInterval(runStopwatch, 10);
+        document.getElementById("start").disabled = true;
+        document.getElementById("stop").disabled = false;
+        isRunning = true;
     }
-    isRunning = !isRunning;
+}
+
+function stopStopwatch() {
+    clearInterval(timer);
+    document.getElementById("start").disabled = false;
+    document.getElementById("stop").disabled = true;
+    isRunning = false;
+}
+
+function resetStopwatch() {
+    clearInterval(timer);
+    document.getElementById("start").disabled = false;
+    document.getElementById("stop").disabled = true;
+    isRunning = false;
+    milliseconds = 0;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    updateDisplay();
 }
 
 function runStopwatch() {
-    miliseconds++;
-    if (miliseconds === 99) {
-        miliseconds = 0;
-
+    milliseconds++;
+    if (milliseconds === 100) {
+        milliseconds = 0;
         seconds++;
         if (seconds === 60) {
             seconds = 0;
@@ -31,26 +47,14 @@ function runStopwatch() {
             }
         }
     }
-    displayStopwatch();
+    updateDisplay();
 }
 
-function displayStopwatch() {
-    let display = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}:${miliseconds < 10 ? '0' + miliseconds : miliseconds}`;
+function updateDisplay() {
+    const display = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}:${milliseconds < 10 ? '0' + milliseconds : milliseconds}`;
     document.querySelector('.display').textContent = display;
 }
 
-function resetStopwatch() {
-    clearInterval(timer);
-    isRunning = false;
-    miliseconds = 0;
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    displayStopwatch();
-    document.getElementById("startStop").innerText = "Start";
-}
-
-document.getElementById("startStop").addEventListener("click", startStop);
+document.getElementById("start").addEventListener("click", startStopwatch);
+document.getElementById("stop").addEventListener("click", stopStopwatch);
 document.getElementById("reset").addEventListener("click", resetStopwatch);
-
-displayStopwatch();
